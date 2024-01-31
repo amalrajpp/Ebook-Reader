@@ -7,16 +7,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class GuestUpdateScreen extends StatefulWidget {
+  const GuestUpdateScreen({super.key});
 
   @override
-  SignUpScreenState createState() => SignUpScreenState();
+  GuestUpdateScreenState createState() => GuestUpdateScreenState();
 }
 
-class SignUpScreenState extends State<SignUpScreen> {
+class GuestUpdateScreenState extends State<GuestUpdateScreen> {
   final _registerFormKey = GlobalKey<FormState>();
-
   final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
@@ -91,6 +90,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         const SizedBox(height: 12.0),
+                        const SizedBox(height: 12.0),
                         TextFormField(
                           controller: _emailTextController,
                           focusNode: _focusEmail,
@@ -143,7 +143,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                       color: Colors.transparent),
                                   child: Center(
                                     child: Text(
-                                      'Login',
+                                      'Sign up',
                                       style: GoogleFonts.montserrat(
                                         textStyle: const TextStyle(
                                             fontWeight: FontWeight.w400,
@@ -160,12 +160,45 @@ class SignUpScreenState extends State<SignUpScreen> {
 
                                   if (_registerFormKey.currentState!
                                       .validate()) {
-                                    User? user = await FirebaseAuthHelper
-                                        .registerUsingEmailPassword(
-                                      name: _nameTextController.text,
-                                      email: _emailTextController.text,
-                                      password: _passwordTextController.text,
-                                    );
+                                    User? user =
+                                        FirebaseAuth.instance.currentUser;
+
+                                    if (user != null && user.isAnonymous) {
+                                      try {
+                                        // Prompt the user to enter their email and password
+                                        String email = _emailTextController
+                                            .text; // Replace with the user's input
+                                        String password = _passwordTextController
+                                            .text; // Replace with the user's input
+
+                                        // Create a credential from the email and password
+                                        AuthCredential credential =
+                                            EmailAuthProvider.credential(
+                                          email: email,
+                                          password: password,
+                                        );
+
+                                        // Link the anonymous user with the credential
+                                        await user
+                                            .linkWithCredential(credential);
+
+                                        // Now, the user is converted to a permanent user with email and password
+                                      } catch (e) {
+                                        // Handle any errors
+                                        if (e is FirebaseAuthException) {
+                                          if (e.code ==
+                                              'email-already-in-use') {
+                                            // Show a message that the email is already in use
+                                            Get.snackbar("",
+                                                "This email is already in use",
+                                                snackPosition:
+                                                    SnackPosition.TOP,
+                                                duration:
+                                                    const Duration(seconds: 2));
+                                          }
+                                        }
+                                      }
+                                    }
 
                                     setState(() {
                                       _isProcessing = false;

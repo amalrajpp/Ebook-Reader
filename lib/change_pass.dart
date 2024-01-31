@@ -145,11 +145,13 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       // Navigate to the next screen or show a success message
                       Get.back();
                       Get.snackbar("", "Password changed successfully",
-                          snackPosition: SnackPosition.BOTTOM);
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2));
                     } else {
                       // Show an error message
                       Get.snackbar("", "Old password is incorrect",
-                          snackPosition: SnackPosition.BOTTOM);
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2));
                     }
                   }
                 },

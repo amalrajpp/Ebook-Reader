@@ -63,16 +63,23 @@ class DiaryEntryScreenState extends State<DiaryEntryScreen> {
     final result = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.brown[50],
         title: const Text('Are you sure?'),
         content: const Text('This will delete your diary entry permanently.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.brown),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.brown),
+            ),
           ),
         ],
       ),
@@ -158,6 +165,7 @@ class DiaryEntryScreenState extends State<DiaryEntryScreen> {
     addDiaryEntry(entry, _selectedDate);
     Get.back();
     Get.snackbar("", "Created successfully",
-        snackPosition: SnackPosition.BOTTOM);
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2));
   }
 }

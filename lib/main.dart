@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_shakemywidget/flutter_shakemywidget.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +14,8 @@ import 'controller.dart';
 import 'firebase_options.dart';
 import 'home.dart';
 import 'index.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +26,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initNotification();
   FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
   runApp(
     GetMaterialApp(
+      theme: ThemeData(primarySwatch: Colors.brown),
       home: AppLock(
         builder: (arg) => MyApp(data: arg),
         lockScreen: const LockScreen(),
@@ -35,6 +41,9 @@ Future<void> main() async {
     ),
   );
 }
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatelessWidget {
   MyApp({super.key, Object? data});
@@ -76,6 +85,7 @@ class LockScreenState extends State<LockScreen> {
     const KeyPad(num: "8"),
     const KeyPad(num: "9"),
   ];
+  final shakeKey = GlobalKey<ShakeWidgetState>();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +102,7 @@ class LockScreenState extends State<LockScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Memoir",
+                "Retrospective",
                 style: GoogleFonts.yesteryear(
                   textStyle: const TextStyle(
                     fontSize: 55,
@@ -197,23 +207,31 @@ class LockScreenState extends State<LockScreen> {
                   ),
                 ),
               ),
-              IconStyle(
-                icon: GestureDetector(
-                  child: const Icon(Icons.lock),
-                  onTap: () {
-                    final Controller c = Get.find<Controller>();
-                    if (t0.text == c.password![0] &&
-                        t1.text == c.password![1] &&
-                        t2.text == c.password![2] &&
-                        t3.text == c.password![3]) {
-                      // Unlock the app with some data
-                      AppLock.of(context)!.didUnlock('Hello world');
-                    } else {
-                      // Show an error message
-                      Get.snackbar("", "Wrong password",
-                          snackPosition: SnackPosition.BOTTOM);
-                    }
-                  },
+              ShakeMe(
+                key: shakeKey,
+                shakeCount: 2,
+                shakeOffset: 10,
+                shakeDuration: Duration(milliseconds: 500),
+                child: IconStyle(
+                  icon: GestureDetector(
+                    child: const Icon(Icons.lock),
+                    onTap: () {
+                      final Controller c = Get.find<Controller>();
+                      if (t0.text == c.password![0] &&
+                          t1.text == c.password![1] &&
+                          t2.text == c.password![2] &&
+                          t3.text == c.password![3]) {
+                        // Unlock the app with some data
+                        AppLock.of(context)!.didUnlock('Hello world');
+                      } else {
+                        // Show an error message
+                        shakeKey.currentState?.shake();
+                        Get.snackbar("", "Wrong password",
+                            snackPosition: SnackPosition.TOP,
+                            duration: const Duration(seconds: 2));
+                      }
+                    },
+                  ),
                 ),
               ),
             ],
@@ -222,4 +240,31 @@ class LockScreenState extends State<LockScreen> {
       ),
     );
   }
+}
+
+// Initialize the notification plugin with the platform settings
+Future<void> initNotification() async {
+  // Load the time zone data
+  tz.initializeTimeZones();
+
+  // Android initialization
+  final AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // iOS initialization
+  final DarwinInitializationSettings initializationSettingsIOS =
+      DarwinInitializationSettings(
+    requestAlertPermission: false,
+    requestBadgePermission: false,
+    requestSoundPermission: false,
+  );
+
+  // Create the initialization settings
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  // Initialize the notification plugin
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }

@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:glyphicon/glyphicon.dart';
@@ -16,6 +17,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'banner_ad.dart';
 import 'diary_entry.dart';
+import 'guest_update.dart';
 import 'settings.dart';
 
 class IndexScreen extends StatefulWidget {
@@ -139,13 +141,13 @@ class _IndexScreenState extends State<IndexScreen> {
                   ListTile(
                     leading: const Icon(Glyphicon.person),
                     title: const Text(
-                      ' Sign in ',
+                      ' Sign up ',
                       style: TextStyle(color: Color(0xFF4E352A)),
                     ),
                     onTap: () {
                       Navigator.pop(context);
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LoginScreen2()));
+                          builder: (context) => const GuestUpdateScreen()));
                     },
                   ),
                 ListTile(
@@ -167,19 +169,7 @@ class _IndexScreenState extends State<IndexScreen> {
                     'LogOut',
                     style: TextStyle(color: Color(0xFF4E352A)),
                   ),
-                  onTap: () async {
-                    try {
-                      final FirebaseAuth auth = FirebaseAuth.instance;
-                      await auth.signOut();
-
-                      // Print a confirmation message
-                      print("User signed out!");
-                    } catch (e) {
-                      // Handle any errors
-                      print(e);
-                    }
-                    Get.off(const LoginScreen2());
-                  },
+                  onTap: _showlogoutDialog,
                 ),
                 ListTile(
                   leading: const Icon(Glyphicon.star),
@@ -431,7 +421,13 @@ class _IndexScreenState extends State<IndexScreen> {
                       } else {
                         // Otherwise, display a circular progress indicator while waiting for data
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 160.0),
+                            child: SpinKitPouringHourGlassRefined(
+                              color: Colors.brown,
+                              size: 50.0,
+                            ),
+                          ),
                         );
                       }
                     },
@@ -443,6 +439,51 @@ class _IndexScreenState extends State<IndexScreen> {
         );
       }),
     );
+  }
+
+  Future<void> _showlogoutDialog() async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.brown[50],
+        title: const Text('Are you sure?'),
+        content: const Text('Your data will be lost.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.brown),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.brown),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (result == true) {
+      await _logoutUser();
+      Get.back();
+    }
+  }
+
+  Future<void> _logoutUser() async {
+    try {
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      await auth.signOut();
+
+      // Print a confirmation message
+      print("User signed out!");
+    } catch (e) {
+      // Handle any errors
+      print(e);
+    }
+    Get.off(const LoginScreen2());
   }
 
   Widget _buildCupertinoDatePicker(BuildContext context) {

@@ -301,10 +301,10 @@ class ViewEntryState extends State<ViewEntry>
                 SizedBox(
                   width: 190,
                   child: Text(
-                    "  Memoir",
+                    "  Retrospective",
                     style: GoogleFonts.yesteryear(
                       textStyle: const TextStyle(
-                        fontSize: 35,
+                        fontSize: 30,
                         color: Color(0xFF4E352A), // Deep brown or sepia color
                       ),
                     ),
@@ -313,12 +313,7 @@ class ViewEntryState extends State<ViewEntry>
                 IconStyle2(
                   icon: GestureDetector(
                     child: const Icon(Icons.delete, size: 20),
-                    onTap: () async {
-                      removeDiaryEntryByDate(did[pageIndex]);
-                      Get.back();
-                      Get.snackbar("", "Deleted successfully",
-                          snackPosition: SnackPosition.BOTTOM);
-                    },
+                    onTap: _showDeleteDialog,
                   ),
                 ),
                 IconStyle2(
@@ -357,5 +352,45 @@ class ViewEntryState extends State<ViewEntry>
         ),
       ),
     );
+  }
+
+  // A method to show a confirmation dialog before deleting the entry
+  Future<void> _showDeleteDialog() async {
+    final result = await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.brown[50],
+        title: const Text('Are you sure?'),
+        content: const Text('This will delete your diary entry permanently.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.brown),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.brown),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (result == true) {
+      await _deleteEntry();
+    }
+  }
+
+  Future<void> _deleteEntry() async {
+    removeDiaryEntryByDate(did[pageIndex]);
+    Get.back();
+    Get.back();
+    Get.snackbar("", "Deleted successfully",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2));
   }
 }

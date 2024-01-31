@@ -2,6 +2,7 @@
 import 'package:ebook/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,6 +21,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  bool _isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
             children: [
               // Login button
               Text(
-                "Memoir",
+                "Retrospective",
                 style: GoogleFonts.yesteryear(
                   textStyle: const TextStyle(
                     fontSize: 55,
@@ -126,7 +128,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                   signInWithGoogle();
                 },
               ),
-              const SizedBox(height: 150.0),
+              const SizedBox(height: 55.0),
+              (_isProcessing == true)
+                  ? const SpinKitCircle(
+                      color: Colors.brown,
+                      size: 50.0,
+                    )
+                  : const SizedBox(height: 50),
+              const SizedBox(height: 55.0),
               GestureDetector(
                 child: Container(
                   width: 300,
@@ -151,6 +160,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                 ),
                 onTap: () async {
                   try {
+                    setState(() {
+                      _isProcessing = true;
+                    });
                     final userCredential =
                         await FirebaseAuth.instance.signInAnonymously();
                     print("Signed in with temporary account.");
@@ -160,6 +172,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                         builder: (context) => const IndexScreen(
                               userId: '',
                             )));
+                    setState(() {
+                      _isProcessing = false;
+                    });
                   } on FirebaseAuthException catch (e) {
                     switch (e.code) {
                       case "operation-not-allowed":
@@ -169,6 +184,9 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       default:
                         print("Unknown error.");
                     }
+                    setState(() {
+                      _isProcessing = false;
+                    });
                   }
                 },
               ),
@@ -210,12 +228,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
         userId: '',
       ));
       Get.snackbar("", "Welcome, ${user.displayName}!",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2));
     } catch (e) {
       // Handle any errors
       print(e);
       Get.snackbar("", "Something went wrong!",
-          snackPosition: SnackPosition.BOTTOM);
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2));
     }
   }
 }

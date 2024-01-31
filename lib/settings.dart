@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -21,10 +22,13 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool lockEnabled = false;
   bool dateHide = false;
+  bool notification = false;
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
@@ -37,6 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       lockEnabled = prefs.getBool('lockEnabled') ?? false;
       dateHide = prefs.getBool('dateHide') ?? false;
+      notification = prefs.getBool('notification') ?? false;
     });
   }
 
@@ -47,6 +52,20 @@ class _SettingsPageState extends State<SettingsPage> {
       prefs.setBool('lockEnabled', value);
       AppLock.of(context)!.setEnabled(value);
     });
+  }
+
+  Future<void> showNotification() async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.periodicallyShow(1, 'plain title',
+        'plain body', RepeatInterval.daily, notificationDetails,
+        payload: 'item x');
   }
 
   @override
@@ -83,11 +102,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       prefs.setBool('dateHide', value);
                     });
                   }),
-              SettingsTile(
-                title: const Text('Notification'),
-                leading: const Icon(Icons.notifications),
-                onPressed: (BuildContext context) {},
-              ),
+              SettingsTile.switchTile(
+                  leading: const Icon(Icons.notifications),
+                  title: const Text('Notification'),
+                  initialValue: notification,
+                  onToggle: (value) async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    setState(() {
+                      notification = value;
+                      prefs.setBool('notification', value);
+                      showNotification();
+                    });
+                  }),
             ],
           ),
           SettingsSection(
@@ -221,7 +248,9 @@ class _SettingsPageState extends State<SettingsPage> {
                                             Get.snackbar("",
                                                 "Password created successfully",
                                                 snackPosition:
-                                                    SnackPosition.BOTTOM);
+                                                    SnackPosition.BOTTOM,
+                                                duration:
+                                                    const Duration(seconds: 2));
                                             setLockPreference(value);
                                           }
                                         },

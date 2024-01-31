@@ -67,16 +67,28 @@ class DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
     final result = await showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.brown[50],
         title: const Text('Are you sure?'),
-        content: const Text('This will delete your diary entry permanently.'),
+        content: const Text('This will clear your diary entry .'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.brown),
+            ),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            onPressed: () {
+              Navigator.pop(context);
+              setState(() {
+                _textController.clear();
+              });
+            },
+            child: const Text(
+              'Clear',
+              style: TextStyle(color: Colors.brown),
+            ),
           ),
         ],
       ),
@@ -127,7 +139,7 @@ class DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
               IconButton(
                 onPressed: _showDeleteDialog,
                 icon: const Icon(
-                  Icons.delete,
+                  Icons.cancel,
                   color: Color(0xFF4E352A),
                 ),
               ),
@@ -165,5 +177,9 @@ class DiaryUpdateScreenState extends State<DiaryUpdateScreen> {
     updateDiaryEntryByDate(
         did!, {'content': entry, 'timestamp': _selectedDate});
     Get.back();
+    Get.back();
+    Get.snackbar("", "Updated successfully",
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2));
   }
 }
