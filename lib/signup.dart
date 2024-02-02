@@ -7,6 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'demo_entry.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -172,6 +174,7 @@ class SignUpScreenState extends State<SignUpScreen> {
                                     });
 
                                     if (user != null) {
+                                      createDemoEntry();
                                       Get.off(const IndexScreen(
                                         userId: '',
                                       ));

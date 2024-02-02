@@ -1,4 +1,5 @@
 // Import the necessary packages
+import 'package:ebook/demo_entry.dart';
 import 'package:ebook/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -166,7 +167,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     final userCredential =
                         await FirebaseAuth.instance.signInAnonymously();
                     print("Signed in with temporary account.");
-
+                    createDemoEntry();
                     //Get.off(const IndexScreen(userId: '',));
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const IndexScreen(
@@ -222,7 +223,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
 
       // Get the User object
       final User user = userCredential.user!;
-
+      createDemoEntry();
       // Display a welcome message
       Get.off(const IndexScreen(
         userId: '',
