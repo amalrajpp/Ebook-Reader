@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '981555800433',
     projectId: 'ebook-76550',
     storageBucket: 'ebook-76550.appspot.com',
-    iosBundleId: 'com.example.ebook',
+    iosBundleId: 'com.ar.ebook',
   );
 }

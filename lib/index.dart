@@ -190,7 +190,7 @@ class _IndexScreenState extends State<IndexScreen> {
                   onTap: () {
                     Navigator.pop(context);
                     Share.share(
-                        'https://play.google.com/store/apps/details?id=com.example.myapp');
+                        'https://play.google.com/store/apps/details?id=com.ar.myapp');
                   },
                 ),
               ],
