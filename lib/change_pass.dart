@@ -29,15 +29,14 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              const Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Text(
                   "Change password",
-                  style: GoogleFonts.montserrat(
-                    textStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 22,
-                        color: Color(0xFF4E352A)),
-                  ),
+                  style: TextStyle(
+                      fontFamily: "Montserrat",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 22,
+                      color: Color(0xFF4E352A)),
                 ),
               ]),
               const SizedBox(height: 30),

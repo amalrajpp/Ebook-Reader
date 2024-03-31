@@ -67,7 +67,7 @@ class _IndexScreenState extends State<IndexScreen> {
 
   @override
   void initState() {
-    MobileAds.instance.initialize();
+    //MobileAds.instance.initialize();
     _getPermission();
     super.initState();
   }
@@ -89,7 +89,7 @@ class _IndexScreenState extends State<IndexScreen> {
               'assets/pen2.png',
               height: 43,
               width: 43,
-              color: Colors.brown,
+              color: Colors.brown[900],
             ),
             onPressed: () {
               showDialog(
@@ -100,10 +100,10 @@ class _IndexScreenState extends State<IndexScreen> {
             },
           ),
           resizeToAvoidBottomInset: false,
-          bottomNavigationBar: const SizedBox(
-            height: 50.0,
-            child: BannerAdWidget(),
-          ),
+          //bottomNavigationBar: const SizedBox(
+          //  height: 50.0,
+          //  child: BannerAdWidget(),
+          //),
           drawer: Drawer(
             backgroundColor: const Color(0XFFEEE3CB),
             child: ListView(
@@ -164,24 +164,6 @@ class _IndexScreenState extends State<IndexScreen> {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Glyphicon.box_arrow_right),
-                  title: const Text(
-                    'LogOut',
-                    style: TextStyle(color: Color(0xFF4E352A)),
-                  ),
-                  onTap: _showlogoutDialog,
-                ),
-                ListTile(
-                  leading: const Icon(Glyphicon.star),
-                  title: const Text(
-                    'Rate us ',
-                    style: TextStyle(color: Color(0xFF4E352A)),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
                   leading: const Icon(Glyphicon.share),
                   title: const Text(
                     'Share app',
@@ -192,6 +174,14 @@ class _IndexScreenState extends State<IndexScreen> {
                     Share.share(
                         'https://play.google.com/store/apps/details?id=com.ar.myapp');
                   },
+                ),
+                ListTile(
+                  leading: const Icon(Glyphicon.box_arrow_right),
+                  title: const Text(
+                    'LogOut',
+                    style: TextStyle(color: Color(0xFF4E352A)),
+                  ),
+                  onTap: _showlogoutDialog,
                 ),
               ],
             ),
@@ -214,7 +204,10 @@ class _IndexScreenState extends State<IndexScreen> {
                     children: [
                       IconStyle1(
                         icon: GestureDetector(
-                          child: const Icon(Icons.menu),
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.brown[900],
+                          ),
                           onTap: () {
                             _key.currentState!.openDrawer();
                           },
@@ -247,8 +240,9 @@ class _IndexScreenState extends State<IndexScreen> {
                                       boxShadow: kElevationToShadow[4],
                                     ),
                                     child: GestureDetector(
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.close,
+                                        color: Colors.brown[900],
                                         size: 16,
                                       ),
                                       onTap: () {
@@ -261,7 +255,10 @@ class _IndexScreenState extends State<IndexScreen> {
                           : SizedBox(),
                       IconStyle1(
                         icon: GestureDetector(
-                          child: const Icon(Icons.edit_calendar),
+                          child: Icon(
+                            Icons.edit_calendar,
+                            color: Colors.brown[900],
+                          ),
                           onTap: () {
                             showCupertinoModalPopup<void>(
                               context: context,
@@ -275,13 +272,12 @@ class _IndexScreenState extends State<IndexScreen> {
                     ],
                   ),
                 ),
-                Text(
+                const Text(
                   "Index",
-                  style: GoogleFonts.signika(
-                    textStyle: const TextStyle(
-                      fontSize: 45,
-                      color: Color(0xFF4E352A), // Deep brown or sepia color
-                    ),
+                  style: TextStyle(
+                    fontFamily: "Signika",
+                    fontSize: 45,
+                    color: Color(0xFF4E352A), // Deep brown or sepia color
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -291,29 +287,18 @@ class _IndexScreenState extends State<IndexScreen> {
                     height: 50,
                     decoration: BoxDecoration(
                         border: Border.all(
-                            width: 2,
+                            width: 2.5,
                             color: Colors.brown,
                             style: BorderStyle.solid),
                         color: Colors.transparent),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Create new entry',
-                        //style: GoogleFonts.openSans(
-                        //style: GoogleFonts.montserrat(
-                        style: GoogleFonts.montserrat(
-                          //shadows: [
-                          //  Shadow(
-                          //    color: Colors.grey[600]!,
-                          //    blurRadius: 6,
-                          //  ),
-                          //],
-                          //style: GoogleFonts.nunito(
-                          //style: GoogleFonts.signika(
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18,
-                              color: Color(0xFF4E352A)),
-                        ),
+                        style: TextStyle(
+                            fontFamily: "Montserrat",
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                            color: Color(0xFF4E352A)),
                       ),
                     ),
                   ),
@@ -373,35 +358,24 @@ class _IndexScreenState extends State<IndexScreen> {
                             if (unique) {
                               return GestureDetector(
                                 child: ListTile(
-                                  leading: const Icon(
+                                  leading: Icon(
                                     FontAwesomeIcons.bookmark,
-                                    color: Colors.brown,
+                                    color: Colors.brown[900],
                                     size: 16,
                                   ),
                                   title: Text(
                                     formatDate(date),
-                                    //style: GoogleFonts.cinzel(
-                                    //style: GoogleFonts.dancingScript(
-                                    //style: GoogleFonts.greatVibes(
-                                    //style: GoogleFonts.unicaOne(
-                                    //style: GoogleFonts.leckerliOne(
-                                    //style: GoogleFonts.montserrat(
-                                    style: GoogleFonts.raleway(
-                                      /*  shadows: [
-                                        Shadow(
-                                          color: Colors.grey[600]!,
-                                          blurRadius: 7,
-                                        ),
-                                      ],
-                                      */
+                                    style: const TextStyle(
+                                      fontFamily: "Raleway",
                                       fontSize: 17,
-                                      color: const Color(0xFF4E352A),
+                                      color: Color(0xFF4E352A),
                                     ),
                                   ),
-                                  trailing: const Icon(
+                                  trailing: Icon(
                                     Icons.arrow_forward_ios,
-                                    color: Colors.brown,
+                                    color: Colors.brown[900],
                                     size: 16,
+                                    weight: 20,
                                   ),
                                 ),
                                 onTap: () {

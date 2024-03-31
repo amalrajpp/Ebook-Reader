@@ -149,18 +149,17 @@ class _SettingsPageState extends State<SettingsPage> {
                                   child: Column(
                                     children: [
                                       const SizedBox(height: 30),
-                                      Row(
+                                      const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Create new password",
-                                              style: GoogleFonts.montserrat(
-                                                textStyle: const TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 22,
-                                                    color: Color(0xFF4E352A)),
-                                              ),
+                                              style: TextStyle(
+                                                  fontFamily: "Montserrat",
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 22,
+                                                  color: Color(0xFF4E352A)),
                                             ),
                                           ]),
                                       const SizedBox(height: 30),

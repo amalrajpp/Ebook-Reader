@@ -298,15 +298,14 @@ class ViewEntryState extends State<ViewEntry>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 190,
                   child: Text(
                     "  Retrospective",
-                    style: GoogleFonts.yesteryear(
-                      textStyle: const TextStyle(
-                        fontSize: 30,
-                        color: Color(0xFF4E352A), // Deep brown or sepia color
-                      ),
+                    style: TextStyle(
+                      fontFamily: "Yesteryear",
+                      fontSize: 30,
+                      color: Color(0xFF4E352A), // Deep brown or sepia color
                     ),
                   ),
                 ),

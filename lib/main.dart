@@ -101,23 +101,21 @@ class LockScreenState extends State<LockScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
+              const Text(
                 "Retrospective",
-                style: GoogleFonts.yesteryear(
-                  textStyle: const TextStyle(
-                    fontSize: 55,
-                    color: Color(0xFF4E352A), // Deep brown or sepia color
-                  ),
+                style: TextStyle(
+                  fontFamily: "Yesteryear",
+                  fontSize: 55,
+                  color: Color(0xFF4E352A), // Deep brown or sepia color
                 ),
               ),
               const SizedBox(height: 160),
-              Text(
+              const Text(
                 'Enter the password to unlock',
-                style: GoogleFonts.signika(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFF4E352A), // Deep brown or sepia color
-                  ),
+                style: TextStyle(
+                  fontFamily: "Signika",
+                  fontSize: 20,
+                  color: Color(0xFF4E352A), // Deep brown or sepia color
                 ),
               ),
               const SizedBox(height: 30),

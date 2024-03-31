@@ -61,17 +61,16 @@ class LoginScreenState extends State<LoginScreen> {
                           height: 150,
                           width: 150,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30.0, top: 12),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 30.0, top: 12),
                           child: Center(
                             child: Text(
                               "Retrospective",
-                              style: GoogleFonts.yesteryear(
-                                textStyle: const TextStyle(
-                                  fontSize: 55,
-                                  color: Color(
-                                      0xFF4E352A), // Deep brown or sepia color
-                                ),
+                              style: TextStyle(
+                                fontFamily: "Yesteryear",
+                                fontSize: 55,
+                                color: Color(
+                                    0xFF4E352A), // Deep brown or sepia color
                               ),
                             ),
                           ),
@@ -131,15 +130,14 @@ class LoginScreenState extends State<LoginScreen> {
                                                 color: Colors.brown,
                                                 style: BorderStyle.solid),
                                             color: Colors.transparent),
-                                        child: Center(
+                                        child: const Center(
                                           child: Text(
                                             'Login',
-                                            style: GoogleFonts.montserrat(
-                                              textStyle: const TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 16,
-                                                  color: Color(0xFF4E352A)),
-                                            ),
+                                            style: TextStyle(
+                                                fontFamily: "Montserrat",
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 16,
+                                                color: Color(0xFF4E352A)),
                                           ),
                                         ),
                                       ),

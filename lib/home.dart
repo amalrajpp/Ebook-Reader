@@ -39,13 +39,12 @@ class _LoginScreen2State extends State<LoginScreen2> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               // Login button
-              Text(
+              const Text(
                 "Retrospective",
-                style: GoogleFonts.yesteryear(
-                  textStyle: const TextStyle(
-                    fontSize: 55,
-                    color: Color(0xFF4E352A), // Deep brown or sepia color
-                  ),
+                style: TextStyle(
+                  fontFamily: "Yesteryear",
+                  fontSize: 55,
+                  color: Color(0xFF4E352A), // Deep brown or sepia color
                 ),
               ),
               const SizedBox(height: 120),
@@ -59,15 +58,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           color: Colors.brown,
                           style: BorderStyle.solid),
                       color: Colors.transparent),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Login',
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Color(0xFF4E352A)),
-                      ),
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Color(0xFF4E352A)),
                     ),
                   ),
                 ),
@@ -86,15 +84,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           color: Colors.brown,
                           style: BorderStyle.solid),
                       color: Colors.transparent),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Sign Up',
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Color(0xFF4E352A)),
-                      ),
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Color(0xFF4E352A)),
                     ),
                   ),
                 ),
@@ -113,15 +110,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           color: Colors.brown,
                           style: BorderStyle.solid),
                       color: Colors.transparent),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Google Sign Up',
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Color(0xFF4E352A)),
-                      ),
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Color(0xFF4E352A)),
                     ),
                   ),
                 ),
@@ -147,15 +143,14 @@ class _LoginScreen2State extends State<LoginScreen2> {
                           color: Colors.brown,
                           style: BorderStyle.solid),
                       color: Colors.transparent),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Login as Guest',
-                      style: GoogleFonts.montserrat(
-                        textStyle: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Color(0xFF4E352A)),
-                      ),
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: Color(0xFF4E352A)),
                     ),
                   ),
                 ),

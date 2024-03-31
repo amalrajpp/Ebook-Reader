@@ -57,17 +57,15 @@ class SignUpScreenState extends State<SignUpScreen> {
                     height: 150,
                     width: 150,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0, top: 12),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 30.0, top: 12),
                     child: Center(
                       child: Text(
                         "Retrospective",
-                        style: GoogleFonts.yesteryear(
-                          textStyle: const TextStyle(
-                            fontSize: 55,
-                            color:
-                                Color(0xFF4E352A), // Deep brown or sepia color
-                          ),
+                        style: TextStyle(
+                          fontFamily: "Yesteryear",
+                          fontSize: 55,
+                          color: Color(0xFF4E352A), // Deep brown or sepia color
                         ),
                       ),
                     ),
@@ -143,15 +141,14 @@ class SignUpScreenState extends State<SignUpScreen> {
                                           color: Colors.brown,
                                           style: BorderStyle.solid),
                                       color: Colors.transparent),
-                                  child: Center(
+                                  child: const Center(
                                     child: Text(
                                       'Login',
-                                      style: GoogleFonts.montserrat(
-                                        textStyle: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: Color(0xFF4E352A)),
-                                      ),
+                                      style: TextStyle(
+                                          fontFamily: "Montserrat",
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                          color: Color(0xFF4E352A)),
                                     ),
                                   ),
                                 ),
@@ -162,22 +159,36 @@ class SignUpScreenState extends State<SignUpScreen> {
 
                                   if (_registerFormKey.currentState!
                                       .validate()) {
-                                    User? user = await FirebaseAuthHelper
-                                        .registerUsingEmailPassword(
-                                      name: _nameTextController.text,
-                                      email: _emailTextController.text,
-                                      password: _passwordTextController.text,
-                                    );
+                                    try {
+                                      User? user = await FirebaseAuthHelper
+                                          .registerUsingEmailPassword(
+                                        name: _nameTextController.text,
+                                        email: _emailTextController.text,
+                                        password: _passwordTextController.text,
+                                      );
 
-                                    setState(() {
-                                      _isProcessing = false;
-                                    });
+                                      setState(() {
+                                        _isProcessing = false;
+                                      });
 
-                                    if (user != null) {
-                                      createDemoEntry();
-                                      Get.off(const IndexScreen(
-                                        userId: '',
-                                      ));
+                                      if (user != null) {
+                                        createDemoEntry();
+                                        Get.off(const IndexScreen(
+                                          userId: '',
+                                        ));
+                                      }
+                                    } catch (e) {
+                                      // Handle any errors
+                                      if (e is FirebaseAuthException) {
+                                        if (e.code == 'email-already-in-use') {
+                                          // Show a message that the email is already in use
+                                          Get.snackbar("",
+                                              "This email is already in use",
+                                              snackPosition: SnackPosition.TOP,
+                                              duration:
+                                                  const Duration(seconds: 2));
+                                        }
+                                      }
                                     }
                                   } else {
                                     setState(() {
