@@ -1,16 +1,63 @@
-# ebook
+# 📔 Offline-First Diary & eBook App
 
-"A new Flutter project."
+A modern **Flutter** application designed for writing personal diaries and reading eBooks — anytime, anywhere.  
+The app follows an **Offline-First** approach, ensuring seamless functionality without an internet connection and automatic synchronization when back online.  
+Built with **GetX** for state management and **Clean Architecture** for scalability and maintainability.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Key Features
 
-A few resources to get you started if this is your first Flutter project:
+### 📝 Personal Diary
+- Create, edit, and delete diary entries with rich text support.
+- Entries automatically saved locally using **Hive / SQLite**.
+- Optionally sync to **Firebase** when online.
+- Secure your diary with app-level **PIN / biometric lock**.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📚 eBook Reader
+- Browse, import, and read eBooks (EPUB or PDF).
+- Resume reading from where you left off.
+- Adjustable font size, night mode, and progress tracking.
+- Bookmark your favorite pages or quotes.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔄 Offline-First Sync
+- Works seamlessly offline with local caching.
+- Syncs diary entries and reading progress automatically when connected.
+- Conflict-free data merge using timestamps.
+
+### ☁️ Cloud Backup (Optional)
+- Optional integration with **Firebase Firestore** or **Cloud Storage** for secure backup.
+- Restore your diary or eBooks on a new device instantly.
+
+### 🧠 Smart Search & Organization
+- Search diary entries by title, date, or content.
+- Organize notes and books into custom categories.
+- Auto-sort by most recent or alphabetical order.
+
+### ⚙️ Additional Features
+- **GetX** for reactive state management and routing.
+- **Clean Architecture** pattern for easy scaling and testing.
+- **Local Notifications** for writing reminders.
+- Minimal, distraction-free design for an enjoyable writing and reading experience.
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| Framework | Flutter (Dart) |
+| State Management | GetX |
+| Local Database | Hive / SQLite |
+| Optional Cloud Sync | Firebase Firestore / Storage |
+| Architecture | Clean Architecture (Presentation, Domain, Data layers) |
+| Security | Local encryption & biometric authentication |
+
+---
+
+## ⚙️ Getting Started
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/offline-diary-ebook.git
+cd offline-diary-ebook
